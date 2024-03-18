@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import LawWordListData from "../components/LawWordListData";
 import { useNavigation } from "@react-navigation/native";
 import * as S from "../../style/LawWordListStyle";
+
 //import Component from "react-native-paper/lib/typescript/components/List/ListItem";
 
 const LawWordList = () => {
@@ -31,36 +32,32 @@ const LawWordList = () => {
       <SectionList
         sections={LawWordListData}
         renderItem={({ item }) => (
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                setExpandedItem(item.name === expandedItem ? null : item.name);
-              }}
-            >
-              <S.ItemContainer>
-                <View>
-                  <Text
-                    style={
-                      expandedItem === item.name
-                        ? styles.expandedItem
-                        : styles.item
+          <S.ListContainer>
+            <S.ListBox>
+              <TouchableOpacity
+                onPress={() => {
+                  setExpandedItem(
+                    item.name === expandedItem ? null : item.name
+                  );
+                }}
+              >
+                <S.ItemRow>
+                  <S.ItemName>{item.name}</S.ItemName>
+                  <Icon
+                    name={
+                      expandedItem === item.name ? "expand-less" : "expand-more"
                     }
-                  >
-                    {item.name}
-                  </Text>
-
-                  {expandedItem === item.name && <Item>{item.value}</Item>}
-                </View>
-                <Icon
-                  name={
-                    expandedItem === item.name ? "expand-less" : "expand-more"
-                  }
-                  size={25}
-                  color={"rgba(45,75,142,1.0)"}
-                />
-              </S.ItemContainer>
-            </TouchableOpacity>
-          </View>
+                    size={25}
+                    color={"white"}
+                    style={{ marginRight: 10 }}
+                  />
+                </S.ItemRow>
+                {expandedItem === item.name && (
+                  <S.ItemValue>{item.value}</S.ItemValue>
+                )}
+              </TouchableOpacity>
+            </S.ListBox>
+          </S.ListContainer>
         )}
         renderSectionHeader={({ section }) => (
           <S.SectionView>
@@ -73,21 +70,4 @@ const LawWordList = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  item: {
-    marginTop: 5,
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    width: 330,
-    marginLeft: 10,
-  },
-  expandedItem: {
-    padding: 10,
-    fontSize: 18,
-    height: 33,
-    width: 330,
-    marginLeft: 10,
-  },
-});
 export default LawWordList;

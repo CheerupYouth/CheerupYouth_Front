@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 8,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(247,247,247,1.0)",
+    backgroundColor: "white",
     marginRight: 10,
     marginLeft: 10,
     borderRadius: 30,

@@ -18,7 +18,7 @@ const TutorialScreen = () => {
   const [iconState, setIconState] = useState("");
 
   return (
-    <SafeAreaView>
+    <S.Page>
       <SectionList
         sections={TutorialData}
         renderItem={({ item }) => (
@@ -60,7 +60,7 @@ const TutorialScreen = () => {
                   fontWeight: "bold",
                   color: iconState.includes(item.name)
                     ? "gray"
-                    : "rgba(45,75,142,0.8)",
+                    : "rgba(45,75,142,1.0)",
                 }}
               >
                 {item.title}
@@ -162,7 +162,7 @@ const TutorialScreen = () => {
         )}
         keyExtractor={(item) => `basicListEntry-${item.name}`}
       />
-    </SafeAreaView>
+    </S.Page>
   );
 };
 

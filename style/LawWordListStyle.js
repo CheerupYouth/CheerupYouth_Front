@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Page = styled.SafeAreaView`
   flex: 1;
   margintop: 1;
-  backgroundcolor: "rgba(242,243,248,1.0)";
+  background-color: #f2f3f8;
 `;
 
 export const SearchIcon = styled.View`
@@ -11,23 +11,8 @@ export const SearchIcon = styled.View`
   align-items: flex-end;
 `;
 
-export const ItemContainer = styled.View`
-  display: flex;
+export const ItemRow = styled.View`
   flex-direction: row;
-  align-items: center;
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  background-color: rgba(45, 75, 142, 0.2);
-`;
-
-export const Item = styled.Text`
-  margin: 10px;
-  color: black;
-  font-size: 15px;
-  margin-left: 18px;
-  width: 300px;
 `;
 
 export const SectionView = styled.View`
@@ -48,12 +33,13 @@ export const SectionHeader = styled.Text`
 export const SearchPage = styled.View`
   flex: 1;
   margin-top: 1px;
+  background-color: #f2f3f8;
 `;
 
 export const SearchbarContainer = styled.View`
   flex-direction: row;
   background-color: white;
-  padding-top: 70px;
+  padding-top: 10px;
   padding-bottom: 10px;
 `;
 
@@ -68,7 +54,7 @@ export const CancelBtn = styled.Text`
 export const SearchContainer = styled.SafeAreaView`
   flex: 1;
   margin-top: 1px;
-  background-color: white;
+  background-color: #f2f3f8;
 `;
 
 export const SearchCurrent = styled.Text`
@@ -77,13 +63,13 @@ export const SearchCurrent = styled.Text`
   padding-left: 17px;
   font-weight: bold;
   font-size: 18px;
-  background-color: white;
+  background-color: #f2f3f8;
 `;
 
 export const SearchItem = styled.View`
   flex-direction: row;
   margin-bottom: 5px;
-  background-color: white;
+  background-color: #f2f3f8;
   padding-bottom: 10px;
 `;
 
@@ -95,4 +81,33 @@ export const CurrentItem = styled.TouchableOpacity`
   background-color: rgba(45, 75, 142, 0.9);
   border-radius: 30px;
   color: white;
+`;
+
+export const ListContainer = styled.View`
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+`;
+
+export const ListBox = styled.View`
+  margin-left: 30px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgba(45, 75, 142, 0.8);
+`;
+
+export const ItemName = styled.Text`
+  flex: 1;
+  padding: 4px;
+  margin-left: 15px;
+  font-weight: bold;
+  color: white;
+`;
+export const ItemValue = styled.Text`
+  margin: 10px;
+  color: white;
+  font-size: 15px;
+  margin-left: 18px;
+  width: 250px;
 `;
