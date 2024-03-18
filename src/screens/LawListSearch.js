@@ -57,7 +57,7 @@ const LawListSearch = ({ navigation }) => {
     : [];
 
   return (
-    <S.SearchPage>
+    <S.Page2>
       <S.SearchbarContainer>
         <Searchbar
           theme={{ colors: { primary: "rgba(45,75,142,1.0)" } }}
@@ -76,41 +76,34 @@ const LawListSearch = ({ navigation }) => {
           <SectionList
             sections={filteredData}
             renderItem={({ item }) => (
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-                    setExpandedItem(
-                      item.name === expandedItem ? null : item.name
-                    );
-                  }}
-                >
-                  <S.ItemContainer>
-                    <View>
-                      <Text
-                        style={
+              <S.ListContainer>
+                <S.ListBox>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setExpandedItem(
+                        item.name === expandedItem ? null : item.name
+                      );
+                    }}
+                  >
+                    <S.ItemRow>
+                      <S.ItemName>{item.name}</S.ItemName>
+                      <Icon
+                        name={
                           expandedItem === item.name
-                            ? styles.expandedItem
-                            : styles.item
+                            ? "expand-less"
+                            : "expand-more"
                         }
-                      >
-                        {item.name}
-                      </Text>
-                      {expandedItem === item.name && (
-                        <Text style={styles.listvalue}>{item.value}</Text>
-                      )}
-                    </View>
-                    <Icon
-                      name={
-                        expandedItem === item.name
-                          ? "expand-less"
-                          : "expand-more"
-                      }
-                      size={25}
-                      color={"rgba(45,75,142,1.0)"}
-                    />
-                  </S.ItemContainer>
-                </TouchableOpacity>
-              </View>
+                        size={25}
+                        color={"white"}
+                        style={{ marginRight: 10 }}
+                      />
+                    </S.ItemRow>
+                    {expandedItem === item.name && (
+                      <S.ItemValue>{item.value}</S.ItemValue>
+                    )}
+                  </TouchableOpacity>
+                </S.ListBox>
+              </S.ListContainer>
             )}
             keyExtractor={(item) => `basicListEntry-${item.name}`}
           />
@@ -134,7 +127,7 @@ const LawListSearch = ({ navigation }) => {
           </S.SearchItem>
         </View>
       )}
-    </S.SearchPage>
+    </S.Page2>
   );
 };
 

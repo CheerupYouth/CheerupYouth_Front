@@ -3,9 +3,13 @@ import styled from "styled-components";
 export const Page = styled.SafeAreaView`
   flex: 1;
   margintop: 1;
-  background-color: #f2f3f8;
+  background-color: #f2f3f4;
 `;
-
+export const Page2 = styled.SafeAreaView`
+  flex: 1;
+  margintop: 1;
+  background-color: #ffffff;
+`;
 export const SearchIcon = styled.View`
   margin: 10px;
   align-items: flex-end;
@@ -63,13 +67,13 @@ export const SearchCurrent = styled.Text`
   padding-left: 17px;
   font-weight: bold;
   font-size: 18px;
-  background-color: #f2f3f8;
+  background-color: #ffffff;
 `;
 
 export const SearchItem = styled.View`
   flex-direction: row;
   margin-bottom: 5px;
-  background-color: #f2f3f8;
+  background-color: #ffffff;
   padding-bottom: 10px;
 `;
 
