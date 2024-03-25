@@ -60,7 +60,7 @@ const TutorialScreen = () => {
                   fontWeight: "bold",
                   color: iconState.includes(item.name)
                     ? "gray"
-                    : "rgba(45,75,142,1.0)",
+                    : "rgba(45,75,142,0.8)",
                 }}
               >
                 {item.title}

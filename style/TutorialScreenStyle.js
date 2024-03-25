@@ -10,6 +10,7 @@ export const TutorialContainer = styled.View`
 export const TutorialRow = styled.View`
   flex-direction: row;
 `;
+
 export const Page = styled.SafeAreaView`
   flex: 1;
   margintop: 1;
