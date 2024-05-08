@@ -13,6 +13,10 @@ import TVP2 from "./src/screens/Tutorial/TutorialViewPg2";
 import TVP3 from "./src/screens/Tutorial/TutorialViewPg3";
 import TVP4 from "./src/screens/Tutorial/TutorialViewPg4";
 import TVP5 from "./src/screens/Tutorial/TutorialViewPg5";
+import Login from "./src/components/Id";
+import InfoDetail from "./src/screens/InfoDetail";
+import InfoDetailFull from "./src/screens/InfoDetailFull";
+import PolicyList from "./src/screens/PolicyList";
 import { UserProvider } from "./src/components/UserProvider";
 
 const Stack = createStackNavigator();

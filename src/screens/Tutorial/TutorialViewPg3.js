@@ -1,20 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  SectionList,
-  Button,
-  Image,
-  Modal,
-  ScrollView,
-  KeyboardAvoidingView,
-  Keyboard,
-  Platform,
-} from "react-native";
+import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
 import axios from "axios";

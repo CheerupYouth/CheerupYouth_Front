@@ -7,20 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserContext } from "../components/UserProvider";
 //import BottomTabNavigationApp from "./BottomBar";
 import * as S from "../../style/MainStyle";
-
-const SearchScreen = () => {
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const onChangeSearch = (query) => setSearchQuery(query);
-
-  return (
-    <Searchbar
-      placeholder="Search"
-      onChangeText={onChangeSearch}
-      value={searchQuery}
-      style={{ backgroundColor: "white" }}
-    />
-  );
-};
+import Header from "../components/Hearder";
+import SearchScreen from "../components/SearchScreen";
 
 const Main = ({ navigation }) => {
   const { userDataP, setUserDataP } = useContext(UserContext);
@@ -45,17 +33,7 @@ const Main = ({ navigation }) => {
 
   return (
     <S.Container>
-      <S.Header>
-        <TouchableOpacity onPress={ButtonBox}>
-          <Icon name="menu" size={25} />
-        </TouchableOpacity>
-        <S.HeaderText>청년 독립 만세</S.HeaderText>
-
-        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-          <Icon name="person" size={25} />
-        </TouchableOpacity>
-      </S.Header>
-
+      <Header navigation={navigation} />
       <SearchScreen />
 
       <View style={{ marginTop: 10, marginBottom: 10 }}>
