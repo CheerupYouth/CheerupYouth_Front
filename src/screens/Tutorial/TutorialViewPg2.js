@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import {
   Text,
   View,
@@ -16,7 +22,7 @@ import RNPickerSelect from "react-native-picker-select";
 import * as Font from "expo-font";
 import { SERVER_URL } from "../../components/ServerAddress";
 import { UserContext } from "../../components/UserProvider";
-
+import { useFocusEffect } from "@react-navigation/native";
 function formatCurrency(amount) {
   if (amount >= 100000000) {
     const eok = Math.floor(amount / 100000000);
@@ -41,34 +47,7 @@ function formatCurrency(amount) {
 function TutorialViewPg2({ navigation }) {
   const [dbdata, setDbData] = useState([]);
   const { userDataP, setUserDataP } = useContext(UserContext);
-  useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/ch2`)
-      .then((response) => {
-        // console.log(response.data);
-        const dbdata = response.data;
-        setDbData(dbdata);
-      })
-      .catch((error) => {
-        console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
-      });
-  }, []); // DB 불러오기
-
   const [userdata, setUserData] = useState([]);
-  useEffect(() => {
-    axios
-      .post(`${SERVER_URL}/user_T2/select`, {
-        user_id: userDataP ? userDataP.id : null,
-      })
-      .then((response) => {
-        const userdata = response.data;
-        setUserData(userdata);
-      })
-      .catch((error) => {
-        console.error("데이터 가져오는 중 오류가 발생했습니다 : ", error);
-      });
-  }, [userDataP]);
-
   const dbControl = (pgname) => {
     const userDataT2 = {
       user_id: userDataP ? userDataP.id : null,
@@ -83,7 +62,7 @@ function TutorialViewPg2({ navigation }) {
       navigation.navigate(pgname);
     } else if (userdata && userdata.length > 0) {
       axios
-        .post(`${SERVER_URL}/user_T2/update`, userDataT2)
+        .post(`${SERVER_URL}/TVP2/update`, userDataT2)
         .then((response) => {
           navigation.navigate(pgname);
         })
@@ -92,7 +71,7 @@ function TutorialViewPg2({ navigation }) {
         });
     } else {
       axios
-        .post(`${SERVER_URL}/user_T2/insert`, userDataT2)
+        .post(`${SERVER_URL}/TVP2/insert`, userDataT2)
         .then((response) => {
           navigation.navigate(pgname);
         })
@@ -104,8 +83,11 @@ function TutorialViewPg2({ navigation }) {
   const nextBtn = () => {
     dbControl("TVP3");
   };
+  const beforeBtn = () => {
+    navigation.goBack();
+  };
   const backBtn = () => {
-    dbControl("TutorialScreen");
+    navigation.navigate("TutorialScreen");
   };
 
   const [inputAddress, setInputAddress] = useState("");
@@ -128,9 +110,34 @@ function TutorialViewPg2({ navigation }) {
   const handleAddressSelect = (data) => {
     setSelectedZoneCode(data.zonecode);
     setInputAddress(data.address);
-    console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
     setModalVisible(false); // 모달을 닫음
   };
+  const addAmount = (tltp) => {
+    setTltp((prevValue) =>
+      prevValue ? `${parseFloat(prevValue) + tltp}` : `${tltp}`
+    );
+  };
+  const filterAddress = dbdata.filter(
+    (item) =>
+      item.address.includes(inputAddress) &&
+      item.danji.includes(inputDanji) &&
+      item.dong.includes(inputDong) &&
+      item.ho.includes(inputHo)
+  );
+  const marketPrice = filterAddress.map((item) => item.marketprice);
+
+  const scrollViewRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  };
+  useEffect(() => {
+    // inputDong이 변경될 때 inputHo를 초기화
+    setInputHo("");
+  }, [inputDong]);
   useEffect(() => {
     if (userdata && userdata.length > 0) {
       setTltp(JSON.stringify(userdata[0].user_tltp));
@@ -141,48 +148,35 @@ function TutorialViewPg2({ navigation }) {
       setInputHo(userdata[0].user_inputHo);
     }
   }, [userdata]);
-
-  const addAmount = (tltp) => {
-    setTltp((prevValue) =>
-      prevValue ? `${parseFloat(prevValue) + tltp}` : `${tltp}`
-    );
-  };
-
-  const filterAddress = dbdata.filter(
-    (item) =>
-      item.address.includes(inputAddress) &&
-      item.danji.includes(inputDanji) &&
-      item.dong.includes(inputDong) &&
-      item.ho.includes(inputHo)
-  );
-
-  const marketPrice = filterAddress.map((item) => item.marketprice);
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/TVP2/data`)
+      .then((response) => {
+        // console.log(response.data);
+        const dbdata = response.data;
+        setDbData(dbdata);
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      });
+  }, []); // DB 불러오기
+  useEffect(() => {
+    axios
+      .post(`${SERVER_URL}/TVP2/select`, {
+        user_id: userDataP ? userDataP.id : null,
+      })
+      .then((response) => {
+        const userdata = response.data;
+        setUserData(userdata);
+      })
+      .catch((error) => {
+        console.error("데이터 가져오는 중 오류가 발생했습니다 : ", error);
+      });
+  }, [userDataP]);
 
   useEffect(() => {
-    // inputDong이 변경될 때 inputHo를 초기화
-    setInputHo("");
-  }, [inputDong]);
-
-  // const scrollViewRef = useRef(null);
-  // const scrollToBottom = () => {
-  //   if (scrollViewRef.current) {
-  //     scrollViewRef.current.scrollToEnd({ animated: true });
-  //   }
-  // };
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [tltp, allFieldsFilled]);
-
-  function handleCancel() {
-    navigation.goBack();
-  }
-  const scrollViewRef = useRef();
-
-  useEffect(() => {
-    if (scrollViewRef.current && tltp && marketPrice.length === 1) {
-      scrollViewRef.current.scrollToEnd({ animated: true });
-    }
-  }, [tltp, marketPrice]);
+    scrollToBottom();
+  }, [tltp, inputDong, inputDanji, inputHo]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -231,7 +225,12 @@ function TutorialViewPg2({ navigation }) {
         </View>
       </View>
 
-      <ScrollView style={{ flex: 1 }} ref={scrollViewRef}>
+      <ScrollView
+        ref={scrollViewRef}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+      >
         <View style={{ margin: 15, marginTop: 20, marginBottom: 0 }}>
           <View
             style={{
@@ -392,7 +391,7 @@ function TutorialViewPg2({ navigation }) {
           style={{
             margin: 15,
             marginTop: 0,
-            marginBottom: tltp && marketPrice.length == 1 ? 15 : 200,
+            marginBottom: tltp && marketPrice.length == 1 ? 15 : 250,
           }}
         >
           <Modal
@@ -667,85 +666,31 @@ function TutorialViewPg2({ navigation }) {
             )}
           </View>
         )}
-      </ScrollView>
+        {tltp && allFieldsFilled ? (
+          <View
+            style={{
+              position: "absolute",
+              padding: 10,
 
-      {tltp && allFieldsFilled ? (
-        <View
-          style={{
-            position: "absolute",
-            padding: 10,
-            bottom: 50,
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              width: "45%",
-              marginRight: 14,
-              height: 55,
-              padding: 15,
-              backgroundColor: "#DEDEDE",
-              borderRadius: 30,
-              alignItems: "center",
+              bottom: 50,
+              width: "100%",
+              flexDirection: "row",
               justifyContent: "center",
             }}
-            onPress={handleCancel}
           >
-            <Text
+            <TouchableOpacity
               style={{
-                color: "rgba(112,112,112,1.0)",
-                fontSize: 20,
-                fontFamily: "B",
+                width: "45%",
+                marginRight: 14,
+                height: 55,
+                padding: 15,
+                backgroundColor: "#DEDEDE",
+                borderRadius: 30,
+                alignItems: "center",
+                justifyContent: "center",
               }}
+              onPress={() => beforeBtn()}
             >
-              이전
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              width: "45%",
-              height: 55,
-              marginLeft: 14,
-              padding: 15,
-              backgroundColor: "#2D4B8E",
-              borderRadius: 30,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onPress={() => nextBtn()}
-          >
-            <Text style={{ fontSize: 20, fontFamily: "B", color: "white" }}>
-              다음
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View
-          style={{
-            position: "absolute",
-            padding: 10,
-            bottom: 50,
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              width: "45%",
-              marginRight: 14,
-              height: 55,
-              padding: 15,
-              backgroundColor: "#DEDEDE",
-              borderRadius: 30,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onPress={handleCancel}
-          >
-            <View>
               <Text
                 style={{
                   color: "rgba(112,112,112,1.0)",
@@ -755,26 +700,80 @@ function TutorialViewPg2({ navigation }) {
               >
                 이전
               </Text>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                width: "45%",
+                height: 55,
+                marginLeft: 14,
+                padding: 15,
+                backgroundColor: "#2D4B8E",
+                borderRadius: 30,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => nextBtn()}
+            >
+              <Text style={{ fontSize: 20, fontFamily: "B", color: "white" }}>
+                다음
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
           <View
             style={{
-              width: "45%",
-              height: 55,
-              marginLeft: 14,
-              padding: 15,
-              backgroundColor: "#DEDEDE",
-              borderRadius: 30,
-              alignItems: "center",
+              position: "absolute",
+              padding: 10,
+              bottom: 50,
+              width: "100%",
+              flexDirection: "row",
               justifyContent: "center",
             }}
           >
-            <View>
-              <Text style={{ fontSize: 20, fontFamily: "B" }}>다음</Text>
+            <TouchableOpacity
+              style={{
+                width: "45%",
+                marginRight: 14,
+                height: 55,
+                padding: 15,
+                backgroundColor: "#DEDEDE",
+                borderRadius: 30,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={beforeBtn}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: "rgba(112,112,112,1.0)",
+                    fontSize: 20,
+                    fontFamily: "B",
+                  }}
+                >
+                  이전
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                width: "45%",
+                height: 55,
+                marginLeft: 14,
+                padding: 15,
+                backgroundColor: "#DEDEDE",
+                borderRadius: 30,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <View>
+                <Text style={{ fontSize: 20, fontFamily: "B" }}>다음</Text>
+              </View>
             </View>
           </View>
-        </View>
-      )}
+        )}
+      </ScrollView>
     </View>
   );
 }

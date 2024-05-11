@@ -13,16 +13,9 @@ import SearchScreen from "../components/SearchScreen";
 const Main = ({ navigation }) => {
   const { userDataP, setUserDataP } = useContext(UserContext);
   const { userDataPlusP } = useContext(UserContext);
-  const ButtonBox = async () => {
-    try {
-      await AsyncStorage.removeItem("userData");
-      await AsyncStorage.removeItem("styleChange");
-      console.log("userData가 삭제되었습니다.");
-      setUserDataP(null); // userDataP 상태를 업데이트하여 화면을 자동으로 새로고침
-    } catch (error) {
-      console.error("데이터를 삭제하는 중 오류가 발생했습니다:", error);
-    }
-  }; //아이디 삭제 (로그아웃)
+  console.log(userDataP);
+
+  const ButtonBox = () => {};
   useFocusEffect(
     useCallback(() => {
       return () => {
@@ -35,7 +28,6 @@ const Main = ({ navigation }) => {
     <S.Container>
       <Header navigation={navigation} />
       <SearchScreen />
-
       <View style={{ marginTop: 10, marginBottom: 10 }}>
         <Image
           source={require("../../assets/images/cdm.jpg")}
@@ -51,7 +43,7 @@ const Main = ({ navigation }) => {
 
       <S.Row>
         <S.TextBox>
-          {userDataP ? userDataP.id : "묘사"} 님을 위한
+          {userDataP ? userDataP.name : "묘사"} 님을 위한
           {"\n"}맞춤 정책을 찾았어요
         </S.TextBox>
         <TouchableOpacity onPress={ButtonBox}>
