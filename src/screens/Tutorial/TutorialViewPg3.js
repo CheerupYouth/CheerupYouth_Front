@@ -120,9 +120,7 @@ function TutorialViewPg3({ navigation }) {
   if (!fontLoaded) {
     return null; // or render a loading indicator
   }
-  function handleCancel() {
-    navigation.goBack();
-  }
+  
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
@@ -406,6 +404,7 @@ function TutorialViewPg3({ navigation }) {
               justifyContent: "center",
             }}
             onPress={nextBtn}
+
           >
             <Text style={{ fontSize: 20, fontFamily: "B", color: "white" }}>
               다음

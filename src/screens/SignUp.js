@@ -28,6 +28,22 @@ const SignUp = () => {
       });
   };
 
+  /*const SignUp = () => {
+    axios.post('http://192.168.35.39:8080/user_info/Signup',{
+      first_name:Firstname,
+      last_name:Lastname,
+      id:Id,
+      password:Password,
+      phone:Phone,
+    })
+    .then(response=>{
+      console.log('회원가입완료')
+    })
+    .catch(error =>{
+      console.log(error)
+    })
+  }*/
+
   return (
     <View
       style={{
