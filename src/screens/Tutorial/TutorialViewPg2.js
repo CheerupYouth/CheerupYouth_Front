@@ -5,6 +5,7 @@ import React, {
   useContext,
   useCallback,
 } from "react";
+
 import {
   Text,
   View,
@@ -21,8 +22,7 @@ import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
 import * as Font from "expo-font";
 import { SERVER_URL } from "../../components/ServerAddress";
-import { UserContext } from "../../components/UserProvider";
-import { useFocusEffect } from "@react-navigation/native";
+
 function formatCurrency(amount) {
   if (amount >= 100000000) {
     const eok = Math.floor(amount / 100000000);
@@ -48,6 +48,7 @@ function TutorialViewPg2({ navigation }) {
   const [dbdata, setDbData] = useState([]);
   const { userDataP, setUserDataP } = useContext(UserContext);
   const [userdata, setUserData] = useState([]);
+
   const dbControl = (pgname) => {
     const userDataT2 = {
       user_id: userDataP ? userDataP.id : null,
@@ -83,6 +84,7 @@ function TutorialViewPg2({ navigation }) {
   const nextBtn = () => {
     dbControl("TVP3");
   };
+
   const beforeBtn = () => {
     navigation.goBack();
   };
@@ -110,9 +112,20 @@ function TutorialViewPg2({ navigation }) {
   const handleAddressSelect = (data) => {
     setSelectedZoneCode(data.zonecode);
     setInputAddress(data.address);
-    // console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data));
     setModalVisible(false); // 모달을 닫음
   };
+  useEffect(() => {
+    if (userdata && userdata.length > 0) {
+      setTltp(JSON.stringify(userdata[0].user_tltp));
+      setSelectedZoneCode(userdata[0].user_selectedZoneCode);
+      setInputAddress(userdata[0].user_inputAddress);
+      setInputDanji(userdata[0].user_inputDanji);
+      setInputDong(userdata[0].user_inputDong);
+      setInputHo(userdata[0].user_inputHo);
+    }
+  }, [userdata]);
+
   const addAmount = (tltp) => {
     setTltp((prevValue) =>
       prevValue ? `${parseFloat(prevValue) + tltp}` : `${tltp}`

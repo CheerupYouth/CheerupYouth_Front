@@ -13,9 +13,17 @@ import SearchScreen from "../components/SearchScreen";
 const Main = ({ navigation }) => {
   const { userDataP, setUserDataP } = useContext(UserContext);
   const { userDataPlusP } = useContext(UserContext);
-  console.log(userDataP);
+  const ButtonBox = async () => {
+    try {
+      await AsyncStorage.removeItem("userData");
+      await AsyncStorage.removeItem("styleChange");
+      console.log("userData가 삭제되었습니다.");
+      setUserDataP(null); // userDataP 상태를 업데이트하여 화면을 자동으로 새로고침
+    } catch (error) {
+      console.error("데이터를 삭제하는 중 오류가 발생했습니다:", error);
+    }
+  }; //아이디 삭제 (로그아웃)
 
-  const ButtonBox = () => {};
   useFocusEffect(
     useCallback(() => {
       return () => {

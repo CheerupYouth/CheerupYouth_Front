@@ -65,7 +65,7 @@ function TutorialViewPg4({ navigation }) {
         const dbdata = response.data;
         const markingData = response.data.map((item) => item.marking);
         setDbData(dbdata);
-        setStyleChange(markingData);
+        setStyleChange(dbdata.map((item) => item.value));
       })
       .catch((error) => {
         console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
@@ -325,13 +325,13 @@ function TutorialViewPg4({ navigation }) {
                                 >
                                   <Icon
                                     name={
-                                      styleChange.includes(data.marking)
+                                      styleChange.includes(data.value)
                                         ? "check-box-outline-blank"
                                         : "check-box"
                                     }
                                     size={18}
                                     color={
-                                      styleChange.includes(data.marking)
+                                      styleChange.includes(data.value)
                                         ? "gray"
                                         : "#2D4B8E"
                                     }
@@ -416,13 +416,13 @@ function TutorialViewPg4({ navigation }) {
                             >
                               <Icon
                                 name={
-                                  styleChange.includes(data.marking)
+                                  styleChange.includes(data.value)
                                     ? "check-box-outline-blank"
                                     : "check-box"
                                 }
                                 size={18}
                                 color={
-                                  styleChange.includes(data.marking)
+                                  styleChange.includes(data.value)
                                     ? "gray"
                                     : "#2D4B8E"
                                 }
@@ -472,6 +472,7 @@ function TutorialViewPg4({ navigation }) {
             flexDirection: "row",
             justifyContent: "center",
           }}
+          onPress={backBtn}
         >
           <TouchableOpacity
             style={{

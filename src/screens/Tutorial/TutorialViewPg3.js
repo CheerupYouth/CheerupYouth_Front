@@ -120,9 +120,7 @@ function TutorialViewPg3({ navigation }) {
   if (!fontLoaded) {
     return null; // or render a loading indicator
   }
-  function handleCancel() {
-    navigation.goBack();
-  }
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
