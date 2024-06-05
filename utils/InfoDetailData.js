@@ -78,3 +78,9 @@ export const districts = {
     "옹진군",
   ],
 };
+
+export const Income = [
+  { label: "서울", value: "서울" },
+  { label: "경기도", value: "경기도" },
+  { label: "인천", value: "인천" },
+];
