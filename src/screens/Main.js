@@ -12,7 +12,7 @@ import SearchScreen from "../components/SearchScreen";
 
 const Main = ({ navigation }) => {
   const { userDataP, setUserDataP } = useContext(UserContext);
-  const { userDataPlusP } = useContext(UserContext);
+
   const ButtonBox = async () => {
     try {
       await AsyncStorage.removeItem("userData");
@@ -83,7 +83,7 @@ const Main = ({ navigation }) => {
           <S.ButtonRowText>계약서</S.ButtonRowText>
         </S.ButtonRow>
         <S.ButtonRow onPress={() => navigation.navigate("LawWordList")}>
-          <S.ButtonRowText>용어 리스트</S.ButtonRowText>
+          <S.ButtonRowText>부동산 용어 사전</S.ButtonRowText>
         </S.ButtonRow>
       </View>
     </S.Container>
